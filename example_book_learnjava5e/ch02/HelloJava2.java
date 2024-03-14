@@ -2,18 +2,27 @@ package ch02;
 
 import java.awt.*;
 import java.awt.event.*;
+
+
 import javax.swing.*;
+import java.util.logging.*;
 
 /**
  * An upgraded graphical application with interactivity!
  */
 public class HelloJava2 {
 	public static void main( String[] args ) {
-    	JFrame frame = new JFrame( "HelloJava2" );
-		frame.add( new HelloComponent2("Hello, Java!") );
+    	JFrame frame = new JFrame( "HelloJava1" );
+		frame.add( new HelloComponent2("Hello, Java!", 125, 95) );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.setSize( 300, 300 );
 		frame.setVisible( true );
+		
+		JFrame frame2 = new JFrame( "HelloJava2" );
+		frame2.add( new HelloComponent2("Hello, Java!", 100, 50) );
+		frame2.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame2.setSize( 300, 300 );
+		frame2.setVisible( true );
 	}
 }
 
@@ -31,23 +40,32 @@ class HelloComponent2 extends JComponent implements MouseMotionListener {
 	 * That position can be changed by dragging the mouse; we attach a listener
 	 * to pick up those drag events.
 	 */
-	public HelloComponent2( String message ) {
+	public HelloComponent2( String message, int msgX, int msgY ) {
     	theMessage = message;
+		messageX = msgX;
+		messageY = msgY;
     	addMouseMotionListener(this);
 	}
 
 	public void paintComponent( Graphics g ) {
     	g.drawString( theMessage, messageX, messageY );
+		//Logger log = Logger.getLogger("HelloComponent2.class");
+		Logger log = Logger.getLogger("HelloComponent2.class");
+		log.log(Level.WARNING, new String("paintComponent called"));
 	}
 
 	public void mouseDragged(MouseEvent e) {
     	// Save the mouse coordinates and paint the message.
-    	messageX = e.getX();
-    	messageY = e.getY();
-    	repaint();
+    	// messageX = e.getX();
+    	// messageY = e.getY();
+    	// repaint();
 	}
 
   	public void mouseMoved(MouseEvent e) { 
 		// Ignore simple movements
+		messageX = e.getX();
+    	messageY = e.getY();
+    	repaint();
+
 	}
 }
